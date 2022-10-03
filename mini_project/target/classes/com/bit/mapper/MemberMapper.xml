@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-Mapper.dtd" >
+
+<mapper namespace="com.bit.mapper.MemberMapper">
+
+	<!-- 회원가입 -->
+	<insert id = "register" parameterType="com.bit.domain.MemberVO">
+		INSERT INTO member(MemberID, MemberName, MemberPW, MemberAddress, MemberEmail, MemberPhoneNum, MemberGrade, MemberMajor, MemberClass)
+		VALUES (#{MemberID}, #{MemberName}, #{MemberPW}, #{MemberAddress}, #{MemberEmail}, #{MemberPhoneNum}, #{MemberGrade}, #{MemberMajor}, 0)
+	</insert>
+	
+	<!-- 로그인 -->	
+	<select id="memberLogin" resultType="com.bit.domain.MemberVO">
+		SELECT *
+		  FROM Member
+		 WHERE MemberID = #{MemberID}
+		   AND MemberPW = #{MemberPW}   
+	</select>
+	
+	<!-- 내 정보 불러오기 -->
+	<select id="myInfo" resultType="com.bit.domain.MemberVO">
+		SELECT *
+		  FROM Member
+		 WHERE MemberID = #{MemberID}
+	</select>
+	
+	<!-- 내 정보 수정하기 -->
+	<update id = "updateMyInfo">
+		UPDATE Member 
+		SET MemberPW = #{MemberPW}, MemberEmail = #{MemberEmail}, MemberAddress = #{MemberAddress}, MemberPW = #{MemberPW}
+		WHERE MemberID = #{MemberID}
+	</update>
+	
+	<!-- 비밀번호 재발급 -->
+	<select id = "findPw" resultType="com.bit.domain.MemberVO">
+		SELECT *
+		FROM Member
+		WHERE MemberID = #{MemberID} and MemberEmail = #{MemberEmail}
+	</select>
+	
+	<!-- 재발급 된 비밀번호로 변경 -->
+	<update id = "updatePw">
+		UPDATE Member
+		SET MemberPW = #{MemberPW}
+		WHERE MemberID = #{MemberID} and MemberEmail = #{MemberEmail}
+	</update>
+		
+	<select id = "read" resultType = "com.bit.domain.MemberVO">
+		SELECT * FROM member WHERE MemberID = #{MemberID}
+	</select>
+	
+	<delete id = "delete">
+		DELETE FROM Member WHERE MemberID = #{MemberID}
+	</delete>
+	
+</mapper>
